@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, HelpCircle } from "lucide-react";
+import { EVENT_HASHTAG, HONOREE_FAMILY_NAME } from "@/lib/constants";
 
 const faqs = [
   {
@@ -39,11 +40,11 @@ const faqs = [
   },
   {
     q: "What hashtag should I use when sharing?",
-    a: "When posting photos, memories, or well-wishes on social media, please use #AkukaliaArthurat60. We would love to see the celebration through your eyes!",
+    a: `When posting photos, memories, or well-wishes on social media, please use ${EVENT_HASHTAG}. We would love to see the celebration through your eyes!`,
   },
   {
     q: "Who do I contact with questions?",
-    a: "For any questions regarding the celebration, RSVP, or accommodations, please contact the Ibegbu family directly. We are happy to assist and look forward to celebrating with you.",
+    a: `For any questions regarding the celebration, RSVP, or accommodations, please contact the ${HONOREE_FAMILY_NAME} Family directly. We are happy to assist and look forward to celebrating with you.`,
   },
 ];
 
@@ -133,7 +134,7 @@ export default function FAQSection() {
             Share the Celebration
           </p>
           <p className="text-3xl md:text-4xl font-[family-name:var(--font-great-vibes)] text-gold-shimmer">
-            #AkukaliaArthurat60
+            {EVENT_HASHTAG}
           </p>
           <p className="text-cream/50 mt-3 font-[family-name:var(--font-cormorant)] text-base max-w-md mx-auto">
             Tag your photos, memories, and well-wishes — let&apos;s fill the feed

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Calendar, Clock, MapPin } from "lucide-react";
+import { HONOREE_FULL_NAME } from "@/lib/constants";
 
 export default function EventDetails() {
   return (
@@ -27,8 +28,8 @@ export default function EventDetails() {
             <p className="text-gold/70 text-xs tracking-[0.35em] uppercase font-[family-name:var(--font-cormorant)] mb-3">
               In Honor Of
             </p>
-            <h3 className="text-4xl md:text-5xl font-[family-name:var(--font-great-vibes)] text-gold-shimmer leading-tight">
-              Akukalia Arthur Ikenna Ibegbu
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-[family-name:var(--font-playfair)] text-gold-shimmer leading-snug tracking-wide">
+              {HONOREE_FULL_NAME}
             </h3>
             <div className="mt-6 flex items-center justify-center gap-4">
               <span className="text-6xl md:text-7xl font-bold gold-3d font-[family-name:var(--font-playfair)]">

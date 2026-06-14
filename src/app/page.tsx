@@ -13,6 +13,7 @@ import HotelReservation from "@/components/HotelReservation";
 import FAQSection from "@/components/FAQSection";
 import { MusicProvider } from "@/components/MusicProvider";
 import FloatingMusicButton from "@/components/FloatingMusicButton";
+import { HONOREE_FULL_NAME, EVENT_HASHTAG } from "@/lib/constants";
 
 export default function HomePage() {
   return (
@@ -22,7 +23,7 @@ export default function HomePage() {
       <Header />
       <FloatingMusicButton />
 
-      <main className="relative z-10 pt-20 pb-16">
+      <main className="relative z-10 pt-[var(--header-offset)] lg:pt-20 pb-16">
         <EnvelopeSection />
         <WelcomeHero />
         <QuickInfoStrip />
@@ -37,10 +38,10 @@ export default function HomePage() {
             <span className="text-gold text-sm font-[family-name:var(--font-playfair)]">A60</span>
           </div>
           <p className="text-cream/35 text-xs font-[family-name:var(--font-cormorant)] tracking-[0.15em]">
-            Akukalia Arthur Ikenna Ibegbu · 60th Birthday · August 22, 2026
+            {HONOREE_FULL_NAME} · 60th Birthday · August 22, 2026
           </p>
           <p className="text-gold/50 text-sm mt-3 font-[family-name:var(--font-great-vibes)]">
-            #AkukaliaArthurat60
+            {EVENT_HASHTAG}
           </p>
           <p className="text-cream/20 text-[11px] mt-2 font-[family-name:var(--font-cormorant)]">
             Luxury invitation experience — crafted with love

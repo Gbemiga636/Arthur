@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Cormorant_Garamond, Great_Vibes } from "next/font/google";
+import { HONOREE_FULL_NAME } from "@/lib/constants";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -21,11 +22,10 @@ const greatVibes = Great_Vibes({
 });
 
 export const metadata: Metadata = {
-  title: "60th Birthday Celebration | Akukalia Arthur Ikenna Ibegbu",
-  description:
-    "You're cordially invited to celebrate the 60th birthday of Akukalia Arthur Ikenna Ibegbu. Saturday, August 22nd, 2026 at Wayne Tree Manor, Wayne, MI.",
+  title: `60th Birthday Celebration | ${HONOREE_FULL_NAME}`,
+  description: `You're cordially invited to celebrate the 60th birthday of ${HONOREE_FULL_NAME}. Saturday, August 22nd, 2026 at Wayne Tree Manor, Wayne, MI.`,
   openGraph: {
-    title: "60th Birthday Celebration — Arthur Ibegbu",
+    title: `60th Birthday Celebration — ${HONOREE_FULL_NAME}`,
     description: "Join us for an evening of celebration, laughter, music, and thanksgiving.",
     images: ["/invite.jpeg"],
   },

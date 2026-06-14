@@ -18,6 +18,7 @@ import {
   LockOpen,
 } from "lucide-react";
 import { RSVPSubmission } from "@/lib/types";
+import { HONOREE_FIRST_NAME } from "@/lib/constants";
 
 export default function AdminPage() {
   const [token, setToken] = useState<string | null>(null);
@@ -222,7 +223,7 @@ export default function AdminPage() {
               Admin Panel
             </h1>
             <p className="text-cream/50 text-sm mt-2 font-[family-name:var(--font-cormorant)]">
-              Arthur 60th Birthday RSVP Management
+              {HONOREE_FIRST_NAME} 60th Birthday RSVP Management
             </p>
           </div>
 
@@ -282,7 +283,7 @@ export default function AdminPage() {
               RSVP Dashboard
             </h1>
             <p className="text-cream/40 text-xs font-[family-name:var(--font-cormorant)]">
-              Arthur 60th Birthday
+              {HONOREE_FIRST_NAME} 60th Birthday
             </p>
           </div>
           <div className="flex items-center gap-3">

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { MailOpen, X } from "lucide-react";
 import { useMusic } from "./MusicProvider";
+import { HONOREE_FULL_NAME } from "@/lib/constants";
 
 export default function EnvelopeSection() {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,7 +56,7 @@ export default function EnvelopeSection() {
               <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md rounded-lg overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gold/30">
                 <Image
                   src="/invite.jpeg"
-                  alt="60th Birthday Invitation for Akukalia Arthur Ikenna Ibegbu"
+                  alt={`60th Birthday Invitation for ${HONOREE_FULL_NAME}`}
                   width={600}
                   height={800}
                   className="w-full h-auto"

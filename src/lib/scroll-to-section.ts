@@ -1,10 +1,13 @@
-const HEADER_OFFSET = 88;
+function getHeaderOffset(): number {
+  if (typeof window === "undefined") return 88;
+  return window.innerWidth >= 1024 ? 88 : 200;
+}
 
 export function scrollToSection(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
 
-  const top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+  const top = el.getBoundingClientRect().top + window.scrollY - getHeaderOffset();
   window.scrollTo({ top, behavior: "smooth" });
 }
 

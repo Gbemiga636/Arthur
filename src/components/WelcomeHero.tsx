@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { HONOREE_FULL_NAME, HONOREE_FIRST_NAME, HONOREE_FAMILY_NAME, EVENT_HASHTAG } from "@/lib/constants";
 
 export default function WelcomeHero() {
   return (
@@ -13,7 +14,7 @@ export default function WelcomeHero() {
         >
           <p className="section-label">Welcome</p>
           <h1 className="mt-4 text-4xl md:text-6xl lg:text-7xl font-[family-name:var(--font-playfair)] leading-[1.1]">
-            <span className="text-cream">Arthur&apos;s </span>
+            <span className="text-cream">{HONOREE_FIRST_NAME}&apos;s </span>
             <span className="text-gold-shimmer font-[family-name:var(--font-great-vibes)] text-5xl md:text-7xl lg:text-8xl">
               Golden
             </span>
@@ -50,7 +51,7 @@ export default function WelcomeHero() {
           </blockquote>
           <p className="mt-6 text-cream/60 font-[family-name:var(--font-cormorant)] text-base leading-relaxed">
             This celebration has been thoughtfully curated to reflect the essence
-            of who Arthur is: a man of faith, wisdom, love, and enduring legacy.
+            of who {HONOREE_FULL_NAME} is: a man of faith, wisdom, love, and enduring legacy.
             May we laugh freely, celebrate intentionally, and walk in gratitude
             for how far God has brought him.
           </p>
@@ -58,7 +59,7 @@ export default function WelcomeHero() {
             With Love &amp; Gratitude
           </p>
           <p className="text-cream/40 text-sm mt-1 font-[family-name:var(--font-cormorant)] tracking-wider">
-            The Ibegbu Family · #AkukaliaArthurat60
+            The {HONOREE_FAMILY_NAME} Family · {EVENT_HASHTAG}
           </p>
         </motion.div>
       </div>

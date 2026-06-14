@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { BedDouble, MapPin, ExternalLink, CalendarCheck, Key } from "lucide-react";
+import { EVENT_HASHTAG, HONOREE_FIRST_NAME } from "@/lib/constants";
 
 const HOTEL_LINK =
   "https://www.marriott.com/event-reservations/reservation-link.mi?id=1771962347989&key=GRP&app=resvlink&_branch_match_id=1358235068982778562&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXTywo0MtNLCrKzC8p0UvOz9UvSi3OyczLtgdK2ALZZSCOWmaKraG5uaGlmZGxibmlhaVadmqlrXtQgFpdUWpaKlB3Xnp8UlF%2BeXFqkW1wYm5xaV46AKvK5ilhAAAA";
@@ -79,7 +80,7 @@ export default function HotelReservation() {
                     <DetailPill
                       icon={<Key className="w-4 h-4" />}
                       label="Booking Type"
-                      value="Group Rate — Arthur 60th"
+                      value={`Group Rate — ${HONOREE_FIRST_NAME} 60th`}
                     />
                     <DetailPill
                       icon={<BedDouble className="w-4 h-4" />}
@@ -116,7 +117,7 @@ export default function HotelReservation() {
                 blocks fill quickly during event weekends.
               </p>
               <p className="text-cream/30 text-xs font-[family-name:var(--font-cormorant)] tracking-wider">
-                #AkukaliaArthurat60
+                {EVENT_HASHTAG}
               </p>
             </div>
           </div>
