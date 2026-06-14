@@ -23,9 +23,9 @@ export default function HomePage() {
       <Header />
       <FloatingMusicButton />
 
-      <main className="relative z-10 pt-[var(--header-offset)] lg:pt-20 pb-16">
-        <EnvelopeSection />
+      <main className="relative z-10 pt-[var(--header-offset)] pb-16">
         <WelcomeHero />
+        <EnvelopeSection />
         <QuickInfoStrip />
         <EventDetails />
         <RSVPForm />

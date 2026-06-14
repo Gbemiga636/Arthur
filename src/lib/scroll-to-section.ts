@@ -1,6 +1,6 @@
 function getHeaderOffset(): number {
-  if (typeof window === "undefined") return 88;
-  return window.innerWidth >= 1024 ? 88 : 200;
+  if (typeof window === "undefined") return 68;
+  return window.innerWidth >= 1024 ? 68 : 60;
 }
 
 export function scrollToSection(id: string) {

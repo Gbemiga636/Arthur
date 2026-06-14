@@ -5,7 +5,7 @@ import { HONOREE_FULL_NAME, HONOREE_FIRST_NAME, HONOREE_FAMILY_NAME, EVENT_HASHT
 
 export default function WelcomeHero() {
   return (
-    <section id="welcome" className="relative pt-8 pb-16 md:pt-12 md:pb-20">
+    <section id="welcome" className="relative pt-4 pb-12 md:pt-8 md:pb-20">
       <div className="max-w-3xl mx-auto text-center px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
