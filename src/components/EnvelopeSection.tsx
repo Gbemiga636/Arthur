@@ -7,7 +7,6 @@ import { MailOpen, X } from "lucide-react";
 import { useMusic } from "./MusicProvider";
 import HashtagSeal from "@/components/HashtagSeal";
 import { HONOREE_FULL_NAME } from "@/lib/constants";
-import { displayHonoreeName } from "@/lib/format-name";
 
 export default function EnvelopeSection() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +20,7 @@ export default function EnvelopeSection() {
     setTimeout(() => {
       setIsOpen(true);
       setIsAnimating(false);
-    }, 1000);
+    }, 1100);
   };
 
   const handleClose = () => {
@@ -32,6 +31,7 @@ export default function EnvelopeSection() {
     <section id="invitation" className="relative px-6 pt-6 pb-12 md:pt-8 md:pb-16">
 
       <div className="max-w-4xl mx-auto">
+        {/* Section header */}
         <div className="text-center mb-10">
           <p className="section-label">Private Invitation</p>
           <h2 className="mt-3 text-3xl md:text-4xl font-[family-name:var(--font-playfair)] text-cream">
@@ -46,10 +46,11 @@ export default function EnvelopeSection() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: 40, scale: 0.94 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 30, scale: 0.96 }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              key="invitation-reveal"
+              initial={{ opacity: 0, rotate: 1080, scale: 0.35 }}
+              animate={{ opacity: 1, rotate: 0, scale: 1 }}
+              exit={{ opacity: 0, rotate: -180, scale: 0.9 }}
+              transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1] }}
               className="relative mb-10 flex flex-col items-center"
             >
               <div className="absolute -inset-4 bg-gradient-to-b from-gold/12 via-gold/4 to-transparent rounded-2xl blur-xl pointer-events-none" />
@@ -57,7 +58,7 @@ export default function EnvelopeSection() {
               <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md rounded-lg overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gold/30">
                 <Image
                   src="/invite.jpeg"
-                  alt={`60th Birthday Invitation for ${displayHonoreeName(HONOREE_FULL_NAME)}`}
+                  alt={`60th Birthday Invitation for ${HONOREE_FULL_NAME}`}
                   width={600}
                   height={800}
                   className="w-full h-auto"

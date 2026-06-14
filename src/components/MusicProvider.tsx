@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { MUSIC_START_SECONDS } from "@/lib/constants";
 
 interface MusicContextValue {
   isPlaying: boolean;
@@ -23,6 +24,9 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
   const playMusic = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
+    if (audio.currentTime < MUSIC_START_SECONDS) {
+      audio.currentTime = MUSIC_START_SECONDS;
+    }
     audio.play().then(() => setIsPlaying(true)).catch(() => {});
   }, []);
 
@@ -30,7 +34,7 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
     const audio = audioRef.current;
     if (!audio) return;
     audio.pause();
-    audio.currentTime = 0;
+    audio.currentTime = MUSIC_START_SECONDS;
     setIsPlaying(false);
   }, []);
 

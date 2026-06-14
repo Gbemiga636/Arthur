@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, HelpCircle } from "lucide-react";
 import { EVENT_HASHTAG, HONOREE_FAMILY_NAME } from "@/lib/constants";
-import { displayHonoreeName } from "@/lib/format-name";
 
 const faqs = [
   {
@@ -17,7 +16,7 @@ const faqs = [
   },
   {
     q: "What is the dress code?",
-    a: "The celebration calls for elegant and refined attire. Think cocktail or formal evening wear — navy, gold, ivory, and warm cream tones are warmly encouraged to match the spirit of this milestone.",
+    a: "The celebration calls for elegant and refined attire. Think cocktail or formal evening wear — navy, gold, and cream tones are warmly encouraged to match the spirit of this golden milestone.",
   },
   {
     q: "Where is the celebration being held?",
@@ -45,7 +44,7 @@ const faqs = [
   },
   {
     q: "Who do I contact with questions?",
-    a: `For any questions regarding the celebration, RSVP, or accommodations, please contact the ${displayHonoreeName(HONOREE_FAMILY_NAME)} Family directly. We are happy to assist and look forward to celebrating with you.`,
+    a: `For any questions regarding the celebration, RSVP, or accommodations, please contact the ${HONOREE_FAMILY_NAME} Family directly. We are happy to assist and look forward to celebrating with you.`,
   },
 ];
 
@@ -131,8 +130,10 @@ export default function FAQSection() {
           viewport={{ once: true }}
           className="mt-12 text-center glass-gold rounded-2xl p-8 border border-gold/25"
         >
-          <p className="section-label mb-3">Share the Celebration</p>
-          <p className="hashtag-bold text-2xl sm:text-3xl md:text-4xl mt-1">
+          <p className="text-gold/70 text-xs tracking-[0.3em] uppercase font-[family-name:var(--font-cormorant)] mb-3">
+            Share the Celebration
+          </p>
+          <p className="text-3xl md:text-4xl font-[family-name:var(--font-great-vibes)] text-gold-shimmer">
             {EVENT_HASHTAG}
           </p>
           <p className="text-cream/50 mt-3 font-[family-name:var(--font-cormorant)] text-base max-w-md mx-auto">
