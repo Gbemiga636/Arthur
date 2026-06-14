@@ -6,7 +6,6 @@ import {
   HONOREE_GIVEN_NAME,
   HONOREE_FAMILY_NAME,
   EVENT_HASHTAG,
-  EVENT_BRAND,
 } from "@/lib/constants";
 import { displayHonoreeName } from "@/lib/format-name";
 
@@ -36,9 +35,6 @@ export default function WelcomeHero() {
               </span>
             </span>
           </h1>
-          <p className="mt-3 text-[10px] sm:text-xs tracking-[0.25em] uppercase text-gold/80 font-[family-name:var(--font-cormorant)]">
-            {EVENT_BRAND}
-          </p>
           <p className="mt-2 text-sm text-cream/60 font-[family-name:var(--font-playfair)] tracking-wide">
             {honoreeName}
           </p>
