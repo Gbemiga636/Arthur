@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { HONOREE_FIRST_NAME } from "@/lib/constants";
+import { EVENT_BRAND } from "@/lib/constants";
+import HashtagSeal from "@/components/HashtagSeal";
 import { handleSectionNav } from "@/lib/scroll-to-section";
 
 const links = [
@@ -23,26 +24,20 @@ export default function Header() {
       initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 glass border-b border-gold/15"
+      className="fixed top-0 left-0 right-0 z-50 glass border-b border-navy/10"
     >
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2 flex items-center gap-2 sm:gap-3">
-        {/* Logo — links to welcome */}
         <a
           href="#welcome"
           onClick={(e) => onNav(e, "#welcome")}
           className="flex items-center gap-1.5 shrink-0 group min-w-0"
         >
-          <div className="w-8 h-8 rounded-full border border-gold/40 flex items-center justify-center bg-navy/60 group-hover:border-gold/70 transition-colors">
-            <span className="text-sm font-bold gold-3d font-[family-name:var(--font-playfair)] leading-none">
-              60
-            </span>
-          </div>
-          <span className="hidden min-[380px]:block text-[9px] sm:text-[10px] tracking-[0.15em] uppercase text-gold/75 font-[family-name:var(--font-cormorant)] truncate max-w-[88px] sm:max-w-none">
-            {HONOREE_FIRST_NAME}&apos;s 60th
+          <HashtagSeal size="sm" />
+          <span className="hidden min-[400px]:block text-[9px] sm:text-[10px] tracking-[0.12em] uppercase text-navy font-[family-name:var(--font-cormorant)] font-semibold truncate">
+            {EVENT_BRAND}
           </span>
         </a>
 
-        {/* Single-line nav — all screen sizes */}
         <nav
           className="flex flex-1 items-center justify-end gap-1 sm:gap-1.5 overflow-x-auto scrollbar-none min-w-0"
           aria-label="Page sections"
@@ -54,8 +49,8 @@ export default function Header() {
               onClick={(e) => onNav(e, link.href)}
               className={`shrink-0 px-2 sm:px-2.5 py-1.5 rounded-full text-[9px] sm:text-[10px] font-[family-name:var(--font-cormorant)] tracking-wide border transition-all active:scale-[0.97] ${
                 link.highlight
-                  ? "border-gold/55 text-gold-light bg-gold/15 font-semibold"
-                  : "border-gold/20 text-cream/80 bg-navy/40 hover:border-gold/40 hover:text-gold-light"
+                  ? "border-gold/55 text-gold bg-gold/15 font-semibold"
+                  : "border-navy/15 text-navy bg-white/70 hover:border-gold/45 hover:text-gold"
               }`}
             >
               {link.label}
@@ -64,7 +59,7 @@ export default function Header() {
         </nav>
       </div>
 
-      <div className="h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+      <div className="h-px bg-gradient-to-r from-transparent via-gold/35 to-transparent" />
     </motion.header>
   );
 }

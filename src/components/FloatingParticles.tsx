@@ -26,10 +26,10 @@ export default function FloatingParticles() {
             height: p.size,
             background:
               p.id % 3 === 0
-                ? "rgba(201, 162, 39, 0.6)"
+                ? "rgba(184, 134, 11, 0.45)"
                 : p.id % 3 === 1
-                  ? "rgba(245, 230, 163, 0.4)"
-                  : "rgba(250, 246, 239, 0.3)",
+                  ? "rgba(139, 115, 85, 0.35)"
+                  : "rgba(201, 162, 39, 0.25)",
           }}
           animate={{
             y: [0, -30, 0],

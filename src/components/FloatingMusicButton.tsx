@@ -16,10 +16,10 @@ export default function FloatingMusicButton() {
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
           transition={{ duration: 0.3 }}
           onClick={stopMusic}
-          className="fixed bottom-6 right-6 z-[60] flex items-center gap-2.5 px-5 py-3 rounded-full border border-gold/40 text-gold-light shadow-[0_8px_32px_rgba(0,0,0,0.45)] hover:border-gold/60 hover:scale-[1.03] active:scale-[0.97] transition-all"
+          className="fixed bottom-6 right-6 z-[60] flex items-center gap-2.5 px-5 py-3 rounded-full border border-gold/45 text-cream shadow-[0_8px_32px_rgba(10,22,40,0.25)] hover:border-gold/70 hover:scale-[1.03] active:scale-[0.97] transition-all"
           style={{
             background:
-              "linear-gradient(135deg, rgba(13,27,62,0.97), rgba(10,22,40,0.97))",
+              "linear-gradient(135deg, rgba(13,27,62,0.96), rgba(10,22,40,0.96))",
           }}
           aria-label="Stop music"
         >

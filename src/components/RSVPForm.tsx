@@ -70,7 +70,6 @@ export default function RSVPForm() {
       transition={{ duration: 0.8 }}
       className="relative max-w-2xl mx-auto py-10 md:py-12"
     >
-      {/* Section header */}
       <div className="text-center mb-10">
         <p className="section-label">Kindly Respond</p>
         <h2 className="text-4xl md:text-5xl font-[family-name:var(--font-playfair)] text-cream mt-4">
@@ -83,9 +82,7 @@ export default function RSVPForm() {
 
       {/* Kindly note */}
       <div className="mb-8 glass rounded-xl p-5 border border-gold/10 max-w-2xl mx-auto">
-        <p className="text-gold/70 text-xs tracking-[0.25em] uppercase font-[family-name:var(--font-cormorant)] mb-3">
-          Kindly Note
-        </p>
+        <p className="section-label mb-3">Kindly Note</p>
         <ul className="space-y-1.5 text-cream/55 text-sm font-[family-name:var(--font-cormorant)]">
           <li>• Each guest is asked to RSVP individually.</li>
           <li>• Please include your plus-one details if bringing someone.</li>

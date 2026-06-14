@@ -5,7 +5,9 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { MailOpen, X } from "lucide-react";
 import { useMusic } from "./MusicProvider";
+import HashtagSeal from "@/components/HashtagSeal";
 import { HONOREE_FULL_NAME } from "@/lib/constants";
+import { displayHonoreeName } from "@/lib/format-name";
 
 export default function EnvelopeSection() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +32,6 @@ export default function EnvelopeSection() {
     <section id="invitation" className="relative px-6 pt-6 pb-12 md:pt-8 md:pb-16">
 
       <div className="max-w-4xl mx-auto">
-        {/* Section header */}
         <div className="text-center mb-10">
           <p className="section-label">Private Invitation</p>
           <h2 className="mt-3 text-3xl md:text-4xl font-[family-name:var(--font-playfair)] text-cream">
@@ -56,7 +57,7 @@ export default function EnvelopeSection() {
               <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md rounded-lg overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gold/30">
                 <Image
                   src="/invite.jpeg"
-                  alt={`60th Birthday Invitation for ${HONOREE_FULL_NAME}`}
+                  alt={`60th Birthday Invitation for ${displayHonoreeName(HONOREE_FULL_NAME)}`}
                   width={600}
                   height={800}
                   className="w-full h-auto"
@@ -153,20 +154,7 @@ export default function EnvelopeSection() {
                       }
                       transition={{ duration: 0.35 }}
                     >
-                      <div
-                        className="w-16 h-16 md:w-[72px] md:h-[72px] rounded-full flex items-center justify-center"
-                        style={{
-                          background:
-                            "radial-gradient(circle at 35% 30%, #f0d060, #c9a227 45%, #7a5c10 100%)",
-                          boxShadow:
-                            "0 6px 20px rgba(201,162,39,0.55), inset 0 2px 6px rgba(255,255,255,0.35)",
-                        }}
-                      >
-                        <span className="text-navy-deep font-bold text-xl md:text-2xl font-[family-name:var(--font-playfair)]">
-                          60
-                        </span>
-                        <div className="absolute inset-2 rounded-full border border-gold-pale/30" />
-                      </div>
+                      <HashtagSeal size="lg" />
                     </motion.div>
 
                     {/* Plain cream paper — no invite image until opened */}

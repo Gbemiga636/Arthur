@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Calendar, Clock, MapPin } from "lucide-react";
 import { HONOREE_FULL_NAME } from "@/lib/constants";
+import { displayHonoreeName } from "@/lib/format-name";
 
 export default function EventDetails() {
   return (
@@ -25,11 +26,9 @@ export default function EventDetails() {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/8 to-transparent rounded-2xl" />
           <div className="relative glass-cream rounded-2xl py-10 px-8 border border-gold/20">
-            <p className="text-gold/70 text-xs tracking-[0.35em] uppercase font-[family-name:var(--font-cormorant)] mb-3">
-              In Honor Of
-            </p>
+            <p className="section-label mb-4">In Honor Of</p>
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-[family-name:var(--font-playfair)] text-gold-shimmer leading-snug tracking-wide">
-              {HONOREE_FULL_NAME}
+              {displayHonoreeName(HONOREE_FULL_NAME)}
             </h3>
             <div className="mt-6 flex items-center justify-center gap-4">
               <span className="text-6xl md:text-7xl font-bold gold-3d font-[family-name:var(--font-playfair)]">
@@ -78,9 +77,7 @@ export default function EventDetails() {
           className="grid md:grid-cols-2 gap-6"
         >
           <div className="glass rounded-2xl p-8 border border-gold/15">
-            <p className="text-gold/60 text-xs tracking-[0.3em] uppercase font-[family-name:var(--font-cormorant)] mb-4">
-              Special Message
-            </p>
+            <p className="section-label mb-4">Special Message</p>
             <p className="text-cream/85 font-[family-name:var(--font-cormorant)] text-lg leading-[1.85]">
               Join us for an evening of celebration, laughter, music, and
               thanksgiving as we honor this wonderful milestone.
@@ -91,9 +88,7 @@ export default function EventDetails() {
           </div>
 
           <div className="glass-gold rounded-2xl p-8 border border-gold/25 flex flex-col justify-center">
-            <p className="text-gold/60 text-xs tracking-[0.3em] uppercase font-[family-name:var(--font-cormorant)] mb-4">
-              60 Years of
-            </p>
+            <p className="section-label mb-4">60 Years of</p>
             <ul className="space-y-2">
               {["Faith", "Wisdom", "Love &", "Legacy"].map((item) => (
                 <li
@@ -159,9 +154,7 @@ function DetailCard({
       <div className="text-gold/70 group-hover:text-gold transition-colors flex justify-center mb-3">
         {icon}
       </div>
-      <p className="text-[10px] tracking-[0.25em] uppercase text-gold/60 font-[family-name:var(--font-cormorant)] mb-2">
-        {label}
-      </p>
+      <p className="section-label section-label--compact mb-2">{label}</p>
       <p className="text-cream font-[family-name:var(--font-cormorant)] text-lg leading-snug">
         {value}
       </p>

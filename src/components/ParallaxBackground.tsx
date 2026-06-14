@@ -5,17 +5,18 @@ import Image from "next/image";
 export default function ParallaxBackground() {
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      {/* Solid base */}
-      <div className="absolute inset-0 bg-[#0a1628]" />
+      {/* Warm ivory base with subtle navy wash at edges */}
+      <div className="absolute inset-0 bg-ivory" />
+      <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/[0.07] via-transparent to-navy-deep/[0.09]" />
 
-      {/* Arthur portrait — fixed, no scroll movement */}
+      {/* Arthur portrait — visible but soft behind content */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative w-full h-full max-w-3xl mx-auto opacity-[0.18]">
+        <div className="relative w-full h-[min(92vh,900px)] max-w-2xl md:max-w-3xl mx-auto opacity-[0.38] md:opacity-[0.44]">
           <Image
             src="/arthur.png"
             alt=""
             fill
-            className="object-contain object-center"
+            className="object-contain object-center mix-blend-multiply"
             priority
             quality={90}
             aria-hidden
@@ -23,27 +24,27 @@ export default function ParallaxBackground() {
         </div>
       </div>
 
-      {/* Semi-transparent scrim — lighter so portrait reads clearer */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#070f1c]/80 via-[#0a1628]/72 to-[#060d18]/82" />
+      {/* Light scrim — lets portrait show through */}
+      <div className="absolute inset-0 bg-gradient-to-b from-ivory/55 via-ivory/25 to-ivory-warm/65" />
 
-      {/* Soft gold ambient glow — fixed */}
+      {/* Gold + navy ambient glow */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] opacity-15 blur-[120px]"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] opacity-25 blur-[100px]"
         style={{
-          background: "radial-gradient(ellipse, rgba(201,162,39,0.35) 0%, transparent 70%)",
+          background:
+            "radial-gradient(ellipse, rgba(201,162,39,0.2) 0%, transparent 55%)",
+        }}
+      />
+      <div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] opacity-20 blur-[90px]"
+        style={{
+          background:
+            "radial-gradient(ellipse, rgba(30,53,104,0.18) 0%, transparent 65%)",
         }}
       />
 
-      {/* Gentle vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(6,13,24,0.5)_100%)]" />
-
-      {/* Fine grain */}
-      <div
-        className="absolute inset-0 opacity-[0.025]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-        }}
-      />
+      {/* Soft vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(249,246,240,0.55)_100%)]" />
     </div>
   );
 }

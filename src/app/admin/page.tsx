@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { RSVPSubmission } from "@/lib/types";
 import { HONOREE_FIRST_NAME } from "@/lib/constants";
+import { displayHonoreeName } from "@/lib/format-name";
 
 export default function AdminPage() {
   const [token, setToken] = useState<string | null>(null);
@@ -223,7 +224,7 @@ export default function AdminPage() {
               Admin Panel
             </h1>
             <p className="text-cream/50 text-sm mt-2 font-[family-name:var(--font-cormorant)]">
-              {HONOREE_FIRST_NAME} 60th Birthday RSVP Management
+              {displayHonoreeName(HONOREE_FIRST_NAME)} 60th Birthday RSVP Management
             </p>
           </div>
 
@@ -283,7 +284,7 @@ export default function AdminPage() {
               RSVP Dashboard
             </h1>
             <p className="text-cream/40 text-xs font-[family-name:var(--font-cormorant)]">
-              {HONOREE_FIRST_NAME} 60th Birthday
+              {displayHonoreeName(HONOREE_FIRST_NAME)} 60th Birthday
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -345,7 +346,7 @@ export default function AdminPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-gold/20 bg-navy/50">
+                <tr className="border-b border-gold/20 bg-ivory-warm/80">
                   {["Name", "Contact", "Status", "Guest", "Message", "Date", "Actions"].map(
                     (h) => (
                       <th
@@ -379,7 +380,7 @@ export default function AdminPage() {
                       className="border-b border-gold/10 hover:bg-gold/5 transition-colors"
                     >
                       <td className="px-4 py-3 text-cream font-[family-name:var(--font-cormorant)]">
-                        {r.name}
+                        {displayHonoreeName(r.name)}
                       </td>
                       <td className="px-4 py-3 text-cream/70 text-sm">
                         <div>{r.phone}</div>
@@ -399,7 +400,7 @@ export default function AdminPage() {
                       <td className="px-4 py-3 text-cream/60 text-sm">
                         {r.bringingGuest ? (
                           <div>
-                            <div>{r.guestName}</div>
+                            <div>{r.guestName ? displayHonoreeName(r.guestName) : null}</div>
                             {r.guestPhone && (
                               <div className="text-cream/30 text-xs">{r.guestPhone}</div>
                             )}

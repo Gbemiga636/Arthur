@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Calendar, Clock, MapPin, Sparkles } from "lucide-react";
+import { EVENT_BRAND } from "@/lib/constants";
 
 const items = [
   {
@@ -25,8 +26,8 @@ const items = [
   {
     icon: Sparkles,
     label: "Occasion",
-    value: "60th Birthday",
-    sub: "Golden Milestone",
+    value: EVENT_BRAND,
+    sub: "Sixty & Sacred",
   },
 ];
 
@@ -44,9 +45,7 @@ export default function QuickInfoStrip() {
             className="glass rounded-xl p-4 md:p-5 text-center group hover:border-gold/40 transition-all border border-gold/10"
           >
             <item.icon className="w-5 h-5 text-gold/70 mx-auto mb-2 group-hover:text-gold transition-colors" />
-            <p className="text-[10px] tracking-[0.25em] uppercase text-gold/60 font-[family-name:var(--font-cormorant)]">
-              {item.label}
-            </p>
+            <p className="section-label section-label--compact mx-auto mb-2">{item.label}</p>
             <p className="text-cream font-[family-name:var(--font-cormorant)] text-base md:text-lg mt-1 leading-tight">
               {item.value}
             </p>

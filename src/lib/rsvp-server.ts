@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { RSVPSubmission, RSVPFormData } from "./types";
+import { toTitleCaseName } from "./format-name";
 import { getSupabaseAdmin, isSupabaseConfigured } from "./supabase";
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -85,19 +86,37 @@ export async function getAllRSVPs(): Promise<RSVPSubmission[]> {
   return readFileStore();
 }
 
+function normalizeForm(form: RSVPFormData): RSVPFormData {
+  return {
+    ...form,
+    name: toTitleCaseName(form.name),
+    guestName: form.guestName ? toTitleCaseName(form.guestName) : form.guestName,
+  };
+}
+
+function normalizeUpdates(updates: Partial<RSVPSubmission>): Partial<RSVPSubmission> {
+  const next = { ...updates };
+  if (next.name) next.name = toTitleCaseName(next.name);
+  if (next.guestName) next.guestName = toTitleCaseName(next.guestName);
+  return next;
+}
+
 export async function createRSVP(form: RSVPFormData): Promise<RSVPSubmission> {
+  const normalized = normalizeForm(form);
   const now = new Date().toISOString();
   const record: RSVPSubmission = {
     id: crypto.randomUUID(),
-    name: form.name.trim(),
-    phone: form.phone.trim(),
-    email: form.email.trim(),
-    attending: form.attending,
-    bringingGuest: form.bringingGuest,
-    guestName: form.bringingGuest ? form.guestName.trim() : undefined,
-    guestPhone: form.bringingGuest ? form.guestPhone.trim() : undefined,
-    guestEmail: form.bringingGuest ? form.guestEmail.trim() : undefined,
-    message: form.message.trim() || undefined,
+    name: normalized.name.trim(),
+    phone: normalized.phone.trim(),
+    email: normalized.email.trim().toLowerCase(),
+    attending: normalized.attending,
+    bringingGuest: normalized.bringingGuest,
+    guestName: normalized.bringingGuest ? normalized.guestName?.trim() : undefined,
+    guestPhone: normalized.bringingGuest ? normalized.guestPhone.trim() : undefined,
+    guestEmail: normalized.bringingGuest
+      ? normalized.guestEmail?.trim().toLowerCase()
+      : undefined,
+    message: normalized.message.trim() || undefined,
     createdAt: now,
     updatedAt: now,
   };
@@ -127,13 +146,14 @@ export async function updateRSVP(
   id: string,
   updates: Partial<RSVPSubmission>
 ): Promise<RSVPSubmission | null> {
+  const normalized = normalizeUpdates(updates);
   const client = getSupabaseAdmin();
   if (client && isSupabaseConfigured) {
     try {
       const { data, error } = await client
         .from("rsvps")
         .update({
-          ...mapToDb(updates),
+          ...mapToDb(normalized),
           updated_at: new Date().toISOString(),
         })
         .eq("id", id)
@@ -149,7 +169,7 @@ export async function updateRSVP(
   const all = await readFileStore();
   const idx = all.findIndex((r) => r.id === id);
   if (idx === -1) return null;
-  all[idx] = { ...all[idx], ...updates, updatedAt: new Date().toISOString() };
+  all[idx] = { ...all[idx], ...normalized, updatedAt: new Date().toISOString() };
   await writeFileStore(all);
   return all[idx];
 }

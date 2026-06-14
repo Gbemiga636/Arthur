@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { BedDouble, MapPin, ExternalLink, CalendarCheck, Key } from "lucide-react";
 import { EVENT_HASHTAG, HONOREE_FIRST_NAME } from "@/lib/constants";
+import { displayHonoreeName } from "@/lib/format-name";
 
 const HOTEL_LINK =
   "https://www.marriott.com/event-reservations/reservation-link.mi?id=1771962347989&key=GRP&app=resvlink&_branch_match_id=1358235068982778562&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXTywo0MtNLCrKzC8p0UvOz9UvSi3OyczLtgdK2ALZZSCOWmaKraG5uaGlmZGxibmlhaVadmqlrXtQgFpdUWpaKlB3Xnp8UlF%2BeXFqkW1wYm5xaV46AKvK5ilhAAAA";
@@ -44,7 +45,7 @@ export default function HotelReservation() {
                     className="w-20 h-20 rounded-2xl flex items-center justify-center border border-gold/30"
                     style={{
                       background:
-                        "linear-gradient(135deg, rgba(201,162,39,0.15), rgba(13,27,62,0.6))",
+                        "linear-gradient(135deg, rgba(201,162,39,0.15), rgba(13,27,62,0.35))",
                     }}
                   >
                     <BedDouble className="w-9 h-9 text-gold-light" />
@@ -53,9 +54,7 @@ export default function HotelReservation() {
 
                 {/* Content */}
                 <div className="flex-1 text-center md:text-left">
-                  <p className="text-gold/70 text-xs tracking-[0.3em] uppercase font-[family-name:var(--font-cormorant)] mb-2">
-                    Official Group Reservation
-                  </p>
+                  <p className="section-label mb-3">Official Group Reservation</p>
                   <h3 className="text-2xl md:text-3xl font-[family-name:var(--font-playfair)] text-cream mb-3">
                     Marriott Hotels — Wayne Area
                   </h3>
@@ -80,7 +79,7 @@ export default function HotelReservation() {
                     <DetailPill
                       icon={<Key className="w-4 h-4" />}
                       label="Booking Type"
-                      value={`Group Rate — ${HONOREE_FIRST_NAME} 60th`}
+                      value={`Group Rate — ${displayHonoreeName(HONOREE_FIRST_NAME)} 60th`}
                     />
                     <DetailPill
                       icon={<BedDouble className="w-4 h-4" />}
@@ -111,12 +110,12 @@ export default function HotelReservation() {
             </div>
 
             {/* Bottom note strip */}
-            <div className="px-8 py-4 bg-navy/40 border-t border-gold/15 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div className="px-8 py-4 bg-navy/10 border-t border-gold/15 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <p className="text-cream/45 text-sm font-[family-name:var(--font-cormorant)]">
                 <span className="text-gold/70">Tip:</span> Book as soon as possible — group
                 blocks fill quickly during event weekends.
               </p>
-              <p className="text-cream/30 text-xs font-[family-name:var(--font-cormorant)] tracking-wider">
+              <p className="hashtag-bold text-[10px] sm:text-xs tracking-wider">
                 {EVENT_HASHTAG}
               </p>
             </div>
