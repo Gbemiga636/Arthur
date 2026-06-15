@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import HashtagSeal from "@/components/HashtagSeal";
 import { handleSectionNav } from "@/lib/scroll-to-section";
 
-const links = [
+const sectionLinks = [
   { href: "#invitation", label: "Invitation" },
   { href: "#details", label: "Details" },
   { href: "#hotel", label: "Hotel" },
@@ -25,7 +26,6 @@ export default function Header() {
       className="fixed top-0 left-0 right-0 z-50 glass border-b border-gold/15"
     >
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2 flex items-center gap-2 sm:gap-3">
-        {/* Logo — links to welcome */}
         <a
           href="#welcome"
           onClick={(e) => onNav(e, "#welcome")}
@@ -34,12 +34,11 @@ export default function Header() {
           <HashtagSeal size="sm" />
         </a>
 
-        {/* Single-line nav — all screen sizes */}
         <nav
           className="flex flex-1 items-center justify-end gap-1 sm:gap-1.5 overflow-x-auto scrollbar-none min-w-0"
           aria-label="Page sections"
         >
-          {links.map((link) => (
+          {sectionLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -53,6 +52,12 @@ export default function Header() {
               {link.label}
             </a>
           ))}
+          <Link
+            href="/photobooth"
+            className="shrink-0 px-2 sm:px-2.5 py-1.5 rounded-full text-[9px] sm:text-[10px] font-[family-name:var(--font-cormorant)] tracking-wide border border-gold/35 text-gold-light bg-gold/10 hover:border-gold/50 transition-all"
+          >
+            Photobooth
+          </Link>
         </nav>
       </div>
 

@@ -11,6 +11,7 @@ import CountdownTimer from "@/components/CountdownTimer";
 import RSVPForm from "@/components/RSVPForm";
 import HotelReservation from "@/components/HotelReservation";
 import FAQSection from "@/components/FAQSection";
+import PhotoboothPromo from "@/components/PhotoboothPromo";
 import { MusicProvider } from "@/components/MusicProvider";
 import FloatingMusicButton from "@/components/FloatingMusicButton";
 import { HONOREE_FULL_NAME, EVENT_HASHTAG, EVENT_BRAND } from "@/lib/constants";
@@ -32,6 +33,7 @@ export default function HomePage() {
         <RSVPForm />
         <CountdownTimer />
         <HotelReservation />
+        <PhotoboothPromo />
         <FAQSection />
 
         <footer className="text-center mt-8 px-6 pb-8">

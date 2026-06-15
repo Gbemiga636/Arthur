@@ -24,7 +24,10 @@ async function readFileStore(): Promise<RSVPSubmission[]> {
   await ensureDataFile();
   try {
     const raw = await fs.readFile(DATA_FILE, "utf-8");
-    return JSON.parse(raw) as RSVPSubmission[];
+    return (JSON.parse(raw) as RSVPSubmission[]).map((r) => ({
+      ...r,
+      needsHotel: r.needsHotel ?? false,
+    }));
   } catch {
     return [];
   }
@@ -42,8 +45,9 @@ function mapToDb(r: Partial<RSVPSubmission>) {
     phone: r.phone,
     email: r.email,
     attending: r.attending,
-    bringing_guest: r.bringingGuest,
-    guest_name: r.guestName ?? null,
+  bringing_guest: r.bringingGuest,
+  needs_hotel: r.needsHotel ?? false,
+  guest_name: r.guestName ?? null,
     guest_phone: r.guestPhone ?? null,
     guest_email: r.guestEmail ?? null,
     message: r.message ?? null,
@@ -60,6 +64,7 @@ function mapFromDb(row: Record<string, unknown>): RSVPSubmission {
     email: row.email as string,
     attending: row.attending as boolean,
     bringingGuest: row.bringing_guest as boolean,
+    needsHotel: Boolean(row.needs_hotel),
     guestName: (row.guest_name as string) ?? undefined,
     guestPhone: (row.guest_phone as string) ?? undefined,
     guestEmail: (row.guest_email as string) ?? undefined,
@@ -98,6 +103,7 @@ function normalizeUpdates(updates: Partial<RSVPSubmission>): Partial<RSVPSubmiss
   const next = { ...updates };
   if (next.name) next.name = toTitleCaseName(next.name);
   if (next.guestName) next.guestName = toTitleCaseName(next.guestName);
+  if (next.needsHotel !== undefined) next.needsHotel = Boolean(next.needsHotel);
   return next;
 }
 
@@ -111,6 +117,7 @@ export async function createRSVP(form: RSVPFormData): Promise<RSVPSubmission> {
     email: normalized.email.trim().toLowerCase(),
     attending: normalized.attending,
     bringingGuest: normalized.bringingGuest,
+    needsHotel: normalized.attending ? normalized.needsHotel : false,
     guestName: normalized.bringingGuest ? normalized.guestName?.trim() : undefined,
     guestPhone: normalized.bringingGuest ? normalized.guestPhone.trim() : undefined,
     guestEmail: normalized.bringingGuest

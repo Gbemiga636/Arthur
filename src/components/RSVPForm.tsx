@@ -11,6 +11,7 @@ const initialForm: RSVPFormData = {
   email: "",
   attending: true,
   bringingGuest: false,
+  needsHotel: false,
   guestName: "",
   guestPhone: "",
   guestEmail: "",
@@ -236,6 +237,25 @@ export default function RSVPForm() {
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              <div className="ornament-divider">
+                <span className="text-gold text-sm">Hotel Accommodation</span>
+              </div>
+              <p className="text-cream/50 text-sm font-[family-name:var(--font-cormorant)] -mt-2">
+                Will you be booking a hotel room for the celebration weekend?
+              </p>
+              <div className="flex gap-4">
+                <AttendanceButton
+                  active={form.needsHotel}
+                  onClick={() => update("needsHotel", true)}
+                  label="Yes, I Will Book"
+                />
+                <AttendanceButton
+                  active={!form.needsHotel}
+                  onClick={() => update("needsHotel", false)}
+                  label="No, Thank You"
+                />
+              </div>
             </motion.div>
           )}
 

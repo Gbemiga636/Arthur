@@ -40,6 +40,8 @@ yarn-error.log*
 
 # local RSVP data (may contain guest info)
 /data/rsvps.json
+/data/photobooth.json
+/data/photobooth/
 
 # vercel
 .vercel

@@ -16,9 +16,13 @@ import {
   Save,
   Loader2,
   LockOpen,
+  Camera,
 } from "lucide-react";
 import { RSVPSubmission } from "@/lib/types";
 import { HONOREE_FIRST_NAME } from "@/lib/constants";
+import AdminPhotoboothPanel from "@/components/admin/AdminPhotoboothPanel";
+
+type AdminTab = "rsvp" | "photobooth";
 
 export default function AdminPage() {
   const [token, setToken] = useState<string | null>(null);
@@ -32,6 +36,7 @@ export default function AdminPage() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [rsvpLocked, setRsvpLocked] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(false);
+  const [adminTab, setAdminTab] = useState<AdminTab>("rsvp");
 
   useEffect(() => {
     const saved = sessionStorage.getItem("admin_token");
@@ -169,6 +174,7 @@ export default function AdminPage() {
       "Email",
       "Attending",
       "Bringing Guest",
+      "Hotel Room",
       "Guest Name",
       "Guest Phone",
       "Guest Email",
@@ -181,6 +187,7 @@ export default function AdminPage() {
       r.email,
       r.attending ? "Yes" : "No",
       r.bringingGuest ? "Yes" : "No",
+      r.needsHotel ? "Yes" : "No",
       r.guestName ?? "",
       r.guestPhone ?? "",
       r.guestEmail ?? "",
@@ -277,61 +284,97 @@ export default function AdminPage() {
     <div className="min-h-screen bg-navy-deep">
       {/* Admin header */}
       <header className="glass border-b border-gold/20 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-[family-name:var(--font-playfair)] text-gold-light">
-              RSVP Dashboard
-            </h1>
-            <p className="text-cream/40 text-xs font-[family-name:var(--font-cormorant)]">
-              {HONOREE_FIRST_NAME} 60th Birthday
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={toggleRsvpLock}
-              disabled={settingsLoading}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm border transition-colors ${
-                rsvpLocked
-                  ? "border-red-400/40 text-red-300 bg-red-500/10 hover:bg-red-500/15"
-                  : "border-green-400/40 text-green-300 bg-green-500/10 hover:bg-green-500/15"
-              }`}
-              title={rsvpLocked ? "Unlock RSVP form" : "Lock RSVP form"}
-            >
-              {settingsLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : rsvpLocked ? (
-                <Lock className="w-4 h-4" />
-              ) : (
-                <LockOpen className="w-4 h-4" />
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <h1 className="text-lg sm:text-xl font-[family-name:var(--font-playfair)] text-gold-light truncate">
+                Admin Dashboard
+              </h1>
+              <p className="text-cream/40 text-xs font-[family-name:var(--font-cormorant)] truncate">
+                {HONOREE_FIRST_NAME} 60th Birthday
+              </p>
+            </div>
+            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-none">
+              {adminTab === "rsvp" && (
+                <>
+                  <button
+                    onClick={toggleRsvpLock}
+                    disabled={settingsLoading}
+                    className={`shrink-0 flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-lg text-xs border transition-colors ${
+                      rsvpLocked
+                        ? "border-red-400/40 text-red-300 bg-red-500/10"
+                        : "border-green-400/40 text-green-300 bg-green-500/10"
+                    }`}
+                    title={rsvpLocked ? "Unlock RSVP" : "Lock RSVP"}
+                  >
+                    {settingsLoading ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : rsvpLocked ? (
+                      <Lock className="w-3.5 h-3.5" />
+                    ) : (
+                      <LockOpen className="w-3.5 h-3.5" />
+                    )}
+                    <span className="hidden sm:inline">
+                      {rsvpLocked ? "Locked" : "Open"}
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => token && fetchRSVPs(token)}
+                    className="shrink-0 p-2 rounded-lg glass-gold text-gold hover:bg-gold/20"
+                    title="Refresh"
+                  >
+                    <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+                  </button>
+                  <button
+                    onClick={downloadCSV}
+                    className="shrink-0 flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-lg glass-gold text-gold-light text-xs border border-gold/30"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Export</span>
+                  </button>
+                </>
               )}
-              {rsvpLocked ? "RSVP Locked" : "RSVP Open"}
+              <button
+                onClick={handleLogout}
+                className="shrink-0 flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-lg text-cream/60 hover:text-red-300 text-xs"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Logout</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="flex gap-2 mt-3 border-t border-gold/10 pt-3">
+            <button
+              onClick={() => setAdminTab("rsvp")}
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs sm:text-sm font-[family-name:var(--font-cormorant)] tracking-wide border transition-colors ${
+                adminTab === "rsvp"
+                  ? "border-gold/50 text-gold-light bg-gold/15"
+                  : "border-gold/20 text-cream/60 hover:border-gold/35"
+              }`}
+            >
+              RSVP Submissions
             </button>
             <button
-              onClick={() => token && fetchRSVPs(token)}
-              className="p-2 rounded-lg glass-gold text-gold hover:bg-gold/20 transition-colors"
-              title="Refresh"
+              onClick={() => setAdminTab("photobooth")}
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs sm:text-sm font-[family-name:var(--font-cormorant)] tracking-wide border transition-colors flex items-center justify-center gap-2 ${
+                adminTab === "photobooth"
+                  ? "border-gold/50 text-gold-light bg-gold/15"
+                  : "border-gold/20 text-cream/60 hover:border-gold/35"
+              }`}
             >
-              <RefreshCw className={`w-5 h-5 ${loading ? "animate-spin" : ""}`} />
-            </button>
-            <button
-              onClick={downloadCSV}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg glass-gold text-gold-light text-sm border border-gold/30 hover:bg-gold/15 transition-colors"
-            >
-              <Download className="w-4 h-4" />
-              Export CSV
-            </button>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg text-cream/60 hover:text-red-300 text-sm transition-colors"
-            >
-              <LogOut className="w-4 h-4" />
-              Logout
+              <Camera className="w-3.5 h-3.5" />
+              Photobooth
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-8">
+        {adminTab === "photobooth" ? (
+          <AdminPhotoboothPanel token={token!} />
+        ) : (
+          <>
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <StatCard icon={Users} label="Total RSVPs" value={rsvps.length} />
@@ -346,7 +389,7 @@ export default function AdminPage() {
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-gold/20 bg-navy/50">
-                  {["Name", "Contact", "Status", "Guest", "Message", "Date", "Actions"].map(
+                  {["Name", "Contact", "Status", "Guest", "Hotel", "Message", "Date", "Actions"].map(
                     (h) => (
                       <th
                         key={h}
@@ -361,14 +404,14 @@ export default function AdminPage() {
               <tbody>
                 {loading && rsvps.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-4 py-12 text-center text-cream/40">
+                    <td colSpan={8} className="px-4 py-12 text-center text-cream/40">
                       <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
                       Loading submissions...
                     </td>
                   </tr>
                 ) : rsvps.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-4 py-12 text-center text-cream/40 font-[family-name:var(--font-cormorant)]">
+                    <td colSpan={8} className="px-4 py-12 text-center text-cream/40 font-[family-name:var(--font-cormorant)]">
                       No RSVPs yet. Share the invitation link with your guests!
                     </td>
                   </tr>
@@ -408,6 +451,9 @@ export default function AdminPage() {
                           "—"
                         )}
                       </td>
+                      <td className="px-4 py-3 text-cream/60 text-sm">
+                        {r.attending ? (r.needsHotel ? "Yes" : "No") : "—"}
+                      </td>
                       <td className="px-4 py-3 text-cream/50 text-sm max-w-[200px] truncate">
                         {r.message || "—"}
                       </td>
@@ -437,6 +483,8 @@ export default function AdminPage() {
             </table>
           </div>
         </div>
+          </>
+        )}
       </main>
 
       {/* Edit modal */}
@@ -523,6 +571,17 @@ export default function AdminPage() {
                       className="accent-gold"
                     />
                     Bringing Guest
+                  </label>
+                  <label className="flex items-center gap-2 text-cream/70 text-sm cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editing.needsHotel}
+                      onChange={(e) =>
+                        setEditing({ ...editing, needsHotel: e.target.checked })
+                      }
+                      className="accent-gold"
+                    />
+                    Booking Hotel
                   </label>
                 </div>
               </div>
