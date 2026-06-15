@@ -1,8 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, Clock, MapPin } from "lucide-react";
+import { Calendar, Clock, MapPin, Sparkles, BookOpen, Heart, Crown } from "lucide-react";
 import { HONOREE_FULL_NAME, EVENT_VENUE_NAME, EVENT_VENUE_ADDRESS } from "@/lib/constants";
+
+const VIRTUES = [
+  { word: "Faith", icon: Sparkles, delay: 0 },
+  { word: "Wisdom", icon: BookOpen, delay: 0.08 },
+  { word: "Love &", icon: Heart, delay: 0.16 },
+  { word: "Legacy", icon: Crown, delay: 0.24 },
+] as const;
 
 export default function EventDetails() {
   return (
@@ -90,20 +97,42 @@ export default function EventDetails() {
             </p>
           </div>
 
-          <div className="glass-gold rounded-2xl p-8 border border-gold/25 flex flex-col justify-center">
-            <p className="text-gold/60 text-xs tracking-[0.3em] uppercase font-[family-name:var(--font-cormorant)] mb-4">
+          <div className="virtues-pillar relative overflow-hidden rounded-2xl border border-gold/30 p-6 sm:p-8 min-h-[280px] flex flex-col justify-center">
+            <div className="virtues-pillar__glow" aria-hidden />
+            <p className="relative z-10 text-gold/70 text-xs tracking-[0.35em] uppercase font-[family-name:var(--font-cormorant)] text-center mb-5">
               60 Years of
             </p>
-            <ul className="space-y-2">
-              {["Faith", "Wisdom", "Love &", "Legacy"].map((item) => (
-                <li
-                  key={item}
-                  className="text-2xl font-[family-name:var(--font-great-vibes)] text-gold-light"
+
+            <div className="relative z-10 grid grid-cols-2 gap-3 sm:gap-4">
+              {VIRTUES.map(({ word, icon: Icon, delay }) => (
+                <motion.div
+                  key={word}
+                  initial={{ opacity: 0, y: 18, scale: 0.92 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -3, scale: 1.02 }}
+                  className="virtues-pillar__card group"
                 >
-                  {item}
-                </li>
+                  <span className="virtues-pillar__icon">
+                    <Icon className="w-4 h-4 text-gold" />
+                  </span>
+                  <p className="virtues-pillar__word font-[family-name:var(--font-playfair)]">
+                    {word}
+                  </p>
+                </motion.div>
               ))}
-            </ul>
+            </div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="relative z-10 text-center mt-5 text-[10px] tracking-[0.25em] uppercase text-cream/40 font-[family-name:var(--font-cormorant)]"
+            >
+              A life beautifully lived
+            </motion.p>
           </div>
         </motion.div>
 

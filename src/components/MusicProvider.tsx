@@ -19,20 +19,35 @@ const MusicContext = createContext<MusicContextValue | null>(null);
 
 export function MusicProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const playRequestRef = useRef(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playMusic = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
+
+    const requestId = ++playRequestRef.current;
+
     if (audio.currentTime < MUSIC_START_SECONDS) {
       audio.currentTime = MUSIC_START_SECONDS;
     }
-    audio.play().then(() => setIsPlaying(true)).catch(() => {});
+
+    void audio
+      .play()
+      .then(() => {
+        if (requestId !== playRequestRef.current || audio.paused) return;
+        setIsPlaying(true);
+      })
+      .catch(() => {});
   }, []);
 
   const stopMusic = useCallback(() => {
+    playRequestRef.current += 1;
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio) {
+      setIsPlaying(false);
+      return;
+    }
     audio.pause();
     audio.currentTime = MUSIC_START_SECONDS;
     setIsPlaying(false);

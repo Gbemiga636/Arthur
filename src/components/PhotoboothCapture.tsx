@@ -20,6 +20,7 @@ import {
   drawPhotoboothFrame,
   PHOTOBOOTH_FOOTER_RATIO,
 } from "@/lib/photobooth-frame-draw";
+import PhotoboothShareActions from "@/components/PhotoboothShareActions";
 
 type Step = "camera" | "preview" | "success";
 type FacingMode = "user" | "environment";
@@ -352,6 +353,8 @@ export default function PhotoboothCapture() {
               />
             </div>
 
+            {previewBlob && <PhotoboothShareActions blob={previewBlob} />}
+
             <div className="flex gap-3">
               <button
                 type="button"
@@ -400,10 +403,15 @@ export default function PhotoboothCapture() {
             <h2 className="text-2xl font-[family-name:var(--font-playfair)] text-gold-light mb-2">
               Photo Saved!
             </h2>
-            <p className="text-cream/65 font-[family-name:var(--font-cormorant)] text-lg leading-relaxed mb-8">
+            <p className="text-cream/65 font-[family-name:var(--font-cormorant)] text-lg leading-relaxed mb-6">
               Your celebration moment has been captured beautifully. Thank you for
               sharing this memory with us!
             </p>
+            {previewBlob && (
+              <div className="mb-8">
+                <PhotoboothShareActions blob={previewBlob} />
+              </div>
+            )}
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 type="button"
