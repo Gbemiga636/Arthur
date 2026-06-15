@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: "Is hotel accommodation available?",
-    a: "Yes. Two options are available for out-of-town guests: Marriott (near Wayne Tree Manor) with online booking, and Skyline Hotel in Romulus with a special Akukalia 60th Birthday group rate. Visit the Hotel Accommodations section to compare both and book or contact the coordinator.",
+    a: "Yes. Two options are available: Fairfield by Marriott Inn & Suites in Romulus (online group booking) and Skyline Hotel with a special Akukalia 60th Birthday group rate. Visit the Hotel page to compare both and book or contact the coordinator.",
   },
   {
     q: "What time should I arrive?",

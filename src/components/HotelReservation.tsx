@@ -21,7 +21,7 @@ import { MARRIOTT_HOTEL, SKYLINE_HOTEL } from "@/lib/hotels";
 type HotelId = "marriott" | "skyline";
 
 const HOTEL_TABS: { id: HotelId; label: string; sub: string }[] = [
-  { id: "marriott", label: "Marriott", sub: "Wayne · Near venue" },
+  { id: "marriott", label: "Fairfield", sub: "Romulus · Group rate" },
   { id: "skyline", label: "Skyline", sub: "Romulus · Group block" },
 ];
 
@@ -93,22 +93,21 @@ function MarriottPanel() {
 
             <div className="flex-1 text-center md:text-left">
               <p className="text-gold/70 text-xs tracking-[0.3em] uppercase font-[family-name:var(--font-cormorant)] mb-2">
-                Near the Venue
+                {MARRIOTT_HOTEL.tagline}
               </p>
-              <h3 className="text-2xl md:text-3xl font-[family-name:var(--font-playfair)] text-cream mb-3">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-playfair)] text-cream mb-2 leading-snug">
                 {MARRIOTT_HOTEL.name}
               </h3>
+              <p className="text-cream/55 text-sm font-[family-name:var(--font-cormorant)] flex items-center gap-1.5 justify-center md:justify-start mb-5">
+                <MapPin className="w-3.5 h-3.5 text-gold/70 shrink-0" />
+                {MARRIOTT_HOTEL.address}, {MARRIOTT_HOTEL.city}
+              </p>
               <p className="text-cream/70 font-[family-name:var(--font-cormorant)] text-lg leading-relaxed mb-6">
-                A special Marriott group rate for celebration guests. Book online
-                for convenient access to Wayne Tree Manor on August 22, 2026.
+                A special Fairfield by Marriott group rate for celebration guests.
+                Book online for the {EVENT_BRAND} weekend — August 22, 2026.
               </p>
 
               <div className="grid sm:grid-cols-2 gap-3 mb-8">
-                <DetailPill
-                  icon={<MapPin className="w-4 h-4" />}
-                  label="Location"
-                  value={MARRIOTT_HOTEL.area}
-                />
                 <DetailPill
                   icon={<CalendarCheck className="w-4 h-4" />}
                   label="Event Weekend"
@@ -121,7 +120,7 @@ function MarriottPanel() {
                 />
                 <DetailPill
                   icon={<Building2 className="w-4 h-4" />}
-                  label="Provider"
+                  label="Hotel Brand"
                   value={MARRIOTT_HOTEL.provider}
                 />
               </div>

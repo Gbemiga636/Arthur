@@ -24,11 +24,12 @@ export const SKYLINE_HOTEL = {
 } as const;
 
 export const MARRIOTT_HOTEL = {
-  name: "Marriott Hotels — Wayne Area",
-  tagline: "Official group reservation near the venue",
-  area: "Wayne Tree Manor Area",
+  name: "Fairfield by Marriott Inn & Suites Detroit Metro Airport Romulus",
+  address: "7800 Merriman Road",
+  city: "Romulus, Michigan, USA, 48174",
+  tagline: "Official group reservation",
   eventDate: "August 22, 2026",
   groupLabel: "Group Rate — Arthur 60th",
-  provider: "Marriott International",
+  provider: "Fairfield by Marriott",
   bookLink: MARRIOTT_GROUP_LINK,
 } as const;
