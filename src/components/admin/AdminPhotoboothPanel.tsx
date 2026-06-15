@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Camera,
@@ -10,6 +9,7 @@ import {
   Trash2,
   X,
   ZoomIn,
+  Archive,
 } from "lucide-react";
 import { PhotoboothPhoto } from "@/lib/types";
 
@@ -19,6 +19,7 @@ export default function AdminPhotoboothPanel({ token }: { token: string }) {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [viewPhoto, setViewPhoto] = useState<PhotoboothPhoto | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [downloadingZip, setDownloadingZip] = useState(false);
 
   const fetchPhotos = useCallback(async () => {
     setLoading(true);
@@ -54,6 +55,29 @@ export default function AdminPhotoboothPanel({ token }: { token: string }) {
       /* ignore */
     } finally {
       setDeleting(false);
+    }
+  };
+
+  const downloadAllZip = async () => {
+    setDownloadingZip(true);
+    try {
+      const res = await fetch("/api/photobooth/zip", {
+        headers: { "x-admin-token": token },
+      });
+      if (!res.ok) throw new Error();
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const stamp = new Date().toISOString().slice(0, 10);
+      a.download = `photobooth-${stamp}.zip`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      /* ignore */
+    } finally {
+      setDownloadingZip(false);
     }
   };
 
@@ -102,16 +126,31 @@ export default function AdminPhotoboothPanel({ token }: { token: string }) {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <p className="text-cream/50 text-sm font-[family-name:var(--font-cormorant)]">
           {photos.length} photo{photos.length !== 1 ? "s" : ""} captured
         </p>
-        <button
-          onClick={fetchPhotos}
-          className="text-xs text-gold/80 hover:text-gold font-[family-name:var(--font-cormorant)] tracking-wide"
-        >
-          Refresh gallery
-        </button>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            type="button"
+            onClick={downloadAllZip}
+            disabled={downloadingZip}
+            className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs border border-gold/35 text-gold-light bg-gold/10 hover:bg-gold/15 transition-colors disabled:opacity-50"
+          >
+            {downloadingZip ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            ) : (
+              <Archive className="w-3.5 h-3.5" />
+            )}
+            {downloadingZip ? "Preparing..." : "Download All (ZIP)"}
+          </button>
+          <button
+            onClick={fetchPhotos}
+            className="text-xs text-gold/80 hover:text-gold font-[family-name:var(--font-cormorant)] tracking-wide px-2 py-2"
+          >
+            Refresh gallery
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -126,13 +165,11 @@ export default function AdminPhotoboothPanel({ token }: { token: string }) {
               onClick={() => setViewPhoto(photo)}
               className="relative aspect-square w-full block"
             >
-              <Image
+              <img
                 src={photo.imageUrl}
                 alt={photo.guestName ?? "Photobooth photo"}
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 50vw, 25vw"
-                unoptimized
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-navy-deep/0 group-hover:bg-navy-deep/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
                 <ZoomIn className="w-8 h-8 text-gold-light" />

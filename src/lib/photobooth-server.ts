@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import JSZip from "jszip";
 import { PhotoboothPhoto } from "./types";
 import { getSupabaseAdmin, isSupabaseConfigured } from "./supabase";
 
@@ -36,13 +37,13 @@ async function writeMeta(data: PhotoboothPhoto[]) {
   await fs.writeFile(META_FILE, JSON.stringify(data, null, 2), "utf-8");
 }
 
-function mapFromDb(row: Record<string, unknown>, publicUrl?: string): PhotoboothPhoto {
+function mapFromDb(row: Record<string, unknown>): PhotoboothPhoto {
   const id = row.id as string;
   const storagePath = row.storage_path as string;
   return {
     id,
     guestName: (row.guest_name as string) ?? undefined,
-    imageUrl: publicUrl ?? photoboothImageApiPath(id),
+    imageUrl: photoboothImageApiPath(id),
     storagePath,
     createdAt: row.created_at as string,
   };
@@ -58,13 +59,9 @@ export async function getAllPhotoboothPhotos(): Promise<PhotoboothPhoto[]> {
         .order("created_at", { ascending: false });
       if (error) throw error;
 
-      return (data ?? []).map((row) => {
-        const storagePath = row.storage_path as string;
-        const { data: urlData } = client.storage
-          .from(STORAGE_BUCKET)
-          .getPublicUrl(storagePath);
-        return mapFromDb(row as Record<string, unknown>, urlData.publicUrl);
-      });
+      return (data ?? []).map((row) =>
+        mapFromDb(row as Record<string, unknown>)
+      );
     } catch {
       /* Fall back to local files */
     }
@@ -104,10 +101,7 @@ export async function savePhotoboothPhoto(
         .single();
       if (error) throw error;
 
-      const { data: urlData } = client.storage
-        .from(STORAGE_BUCKET)
-        .getPublicUrl(fileName);
-      return mapFromDb(data as Record<string, unknown>, urlData.publicUrl);
+      return mapFromDb(data as Record<string, unknown>);
     } catch {
       /* Fall back to local files */
     }
@@ -194,4 +188,42 @@ export async function deletePhotoboothPhoto(id: string): Promise<boolean> {
 
   await writeMeta(all.filter((p) => p.id !== id));
   return true;
+}
+
+function zipEntryName(photo: PhotoboothPhoto, index: number): string {
+  const guest = photo.guestName
+    ? photo.guestName
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+    : "guest";
+  const pad = String(index + 1).padStart(3, "0");
+  return `${pad}-${guest || "guest"}-${photo.id.slice(0, 8)}.jpg`;
+}
+
+export function photoboothZipFilename(): string {
+  const stamp = new Date().toISOString().slice(0, 10);
+  return `photobooth-${stamp}.zip`;
+}
+
+export async function createPhotoboothZipArchive(): Promise<Buffer> {
+  const photos = await getAllPhotoboothPhotos();
+  const zip = new JSZip();
+
+  for (let i = 0; i < photos.length; i++) {
+    const photo = photos[i];
+    const buffer = await getPhotoboothImageBuffer(photo.id);
+    if (buffer) {
+      zip.file(zipEntryName(photo, i), buffer);
+    }
+  }
+
+  return Buffer.from(
+    await zip.generateAsync({
+      type: "uint8array",
+      compression: "DEFLATE",
+      compressionOptions: { level: 6 },
+    })
+  );
 }
