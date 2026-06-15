@@ -470,6 +470,162 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+/* Hotel accommodations — dual picker */
+.hotel-picker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  max-width: 28rem;
+  margin-inline: auto;
+  padding: 0.35rem;
+  border-radius: 1rem;
+  background: rgba(10, 22, 40, 0.55);
+  border: 1px solid rgba(201, 162, 39, 0.22);
+}
+
+.hotel-picker__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.75rem 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.hotel-picker__tab:hover {
+  background: rgba(201, 162, 39, 0.08);
+}
+
+.hotel-picker__tab--active {
+  background: linear-gradient(
+    135deg,
+    rgba(201, 162, 39, 0.22),
+    rgba(13, 27, 62, 0.85)
+  );
+  border-color: rgba(201, 162, 39, 0.45);
+  box-shadow: 0 4px 20px rgba(201, 162, 39, 0.12);
+}
+
+.hotel-picker__tab-label {
+  font-family: var(--font-playfair), serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #faf6ef;
+}
+
+.hotel-picker__tab-sub {
+  font-family: var(--font-cormorant), serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(250, 246, 239, 0.45);
+}
+
+.hotel-picker__tab--active .hotel-picker__tab-sub {
+  color: rgba(232, 197, 71, 0.75);
+}
+
+.skyline-hotel-card {
+  background: linear-gradient(
+    165deg,
+    rgba(201, 162, 39, 0.12) 0%,
+    rgba(10, 22, 40, 0.95) 35%,
+    rgba(13, 27, 62, 0.98) 100%
+  );
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+.skyline-hotel-card__header {
+  border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+  background: linear-gradient(
+    90deg,
+    rgba(201, 162, 39, 0.08),
+    transparent 60%
+  );
+}
+
+.skyline-hotel-card__badge {
+  padding: 0.65rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  background: rgba(10, 22, 40, 0.6);
+}
+
+.skyline-room-tile {
+  padding: 1rem 1.1rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  background: rgba(10, 22, 40, 0.5);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.skyline-room-tile:hover {
+  border-color: rgba(232, 197, 71, 0.5);
+  transform: translateY(-2px);
+}
+
+.skyline-timeline {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  overflow: hidden;
+  background: rgba(10, 22, 40, 0.45);
+}
+
+@media (min-width: 640px) {
+  .skyline-timeline {
+    flex-direction: row;
+  }
+}
+
+.skyline-timeline__item {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.15rem;
+}
+
+.skyline-timeline__divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 162, 39, 0.4),
+    transparent
+  );
+}
+
+@media (min-width: 640px) {
+  .skyline-timeline__divider {
+    width: 1px;
+    height: auto;
+    align-self: stretch;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(201, 162, 39, 0.4),
+      transparent
+    );
+  }
+}
+
+.skyline-coordinator {
+  background: linear-gradient(
+    145deg,
+    rgba(201, 162, 39, 0.1),
+    rgba(10, 22, 40, 0.7)
+  );
+}
+
 .hashtag-bold {
   font-family: var(--font-playfair), serif;
   font-weight: 700;

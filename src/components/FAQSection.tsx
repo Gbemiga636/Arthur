@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: "Is hotel accommodation available?",
-    a: "Yes. A reserved room block has been arranged through Marriott for out-of-town guests. Scroll to the Hotel Accommodations section above and use the Reserve Your Room link to book at the special group rate.",
+    a: "Yes. Two options are available for out-of-town guests: Marriott (near Wayne Tree Manor) with online booking, and Skyline Hotel in Romulus with a special Akukalia 60th Birthday group rate. Visit the Hotel Accommodations section to compare both and book or contact the coordinator.",
   },
   {
     q: "What time should I arrive?",
