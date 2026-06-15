@@ -21,7 +21,7 @@ import { MARRIOTT_HOTEL, SKYLINE_HOTEL } from "@/lib/hotels";
 type HotelId = "marriott" | "skyline";
 
 const HOTEL_TABS: { id: HotelId; label: string; sub: string }[] = [
-  { id: "marriott", label: "Fairfield", sub: "Romulus · Group rate" },
+  { id: "marriott", label: "Marriott", sub: "Romulus · Group rate" },
   { id: "skyline", label: "Skyline", sub: "Romulus · Group block" },
 ];
 
