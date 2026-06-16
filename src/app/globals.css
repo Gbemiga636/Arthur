@@ -475,7 +475,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.65rem;
-  max-width: 28rem;
+  max-width: 32rem;
   margin-inline: auto;
   padding: 0.35rem;
   border-radius: 1rem;
@@ -512,9 +512,11 @@ body {
 
 .hotel-picker__tab-label {
   font-family: var(--font-playfair), serif;
-  font-size: 1rem;
+  font-size: clamp(0.72rem, 2.8vw, 1rem);
   font-weight: 600;
   color: #faf6ef;
+  text-align: center;
+  line-height: 1.25;
 }
 
 .hotel-picker__tab-sub {
