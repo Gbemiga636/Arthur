@@ -6,7 +6,7 @@ import FloatingParticles from "@/components/FloatingParticles";
 import WelcomeHero from "@/components/WelcomeHero";
 import QuickInfoStrip from "@/components/QuickInfoStrip";
 import EnvelopeSection from "@/components/EnvelopeSection";
-import EventDetails from "@/components/EventDetails";
+import GalleryTeaser from "@/components/MemoryGallery";
 import CountdownTimer from "@/components/CountdownTimer";
 import RSVPForm from "@/components/RSVPForm";
 import HotelReservation from "@/components/HotelReservation";
@@ -29,7 +29,7 @@ export default function HomePage() {
         <WelcomeHero />
         <EnvelopeSection />
         <QuickInfoStrip />
-        <EventDetails />
+        <GalleryTeaser />
         <RSVPForm />
         <CountdownTimer />
         <HotelReservation />
