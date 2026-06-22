@@ -1,12 +1,28 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Images, X, ZoomIn } from "lucide-react";
-import { GALLERY_IMAGES, GALLERY_TEASER_IDS } from "@/lib/gallery";
-import { EVENT_BRAND, EVENT_HASHTAG } from "@/lib/constants";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Images,
+  Shuffle,
+  Sparkles,
+  X,
+  ZoomIn,
+} from "lucide-react";
+import {
+  GALLERY_CHAPTERS,
+  GALLERY_IMAGES,
+  GALLERY_TEASER_IDS,
+  chapterLabel,
+  type GalleryChapter,
+} from "@/lib/gallery";
+import { EVENT_BRAND, EVENT_HASHTAG, HONOREE_FIRST_NAME } from "@/lib/constants";
+
+type ChapterFilter = "all" | GalleryChapter;
 
 function GalleryImg({
   src,
@@ -27,6 +43,7 @@ function GalleryImg({
       className={className}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
+      draggable={false}
     />
   );
 }
@@ -37,7 +54,7 @@ export default function GalleryTeaser() {
   );
 
   return (
-    <section id="gallery" className="relative px-6 py-16 md:py-20">
+    <section id="gallery" className="relative px-6 py-16 md:py-20 overflow-hidden">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
           <p className="section-label inline-flex items-center gap-2">
@@ -49,8 +66,20 @@ export default function GalleryTeaser() {
             <span className="text-gold-shimmer">Precious Moments</span>
           </h2>
           <p className="text-cream/50 mt-3 font-[family-name:var(--font-cormorant)] text-lg max-w-lg mx-auto">
-            Walk through cherished memories celebrating {EVENT_BRAND}.
+            {GALLERY_IMAGES.length} cherished photographs celebrating {EVENT_BRAND}.
           </p>
+        </div>
+
+        <div className="gallery-teaser-reel mb-8" aria-hidden>
+          <div className="gallery-teaser-reel__fade gallery-teaser-reel__fade--left" />
+          <div className="gallery-teaser-reel__fade gallery-teaser-reel__fade--right" />
+          <div className="gallery-teaser-reel__track">
+            {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((img, i) => (
+              <div key={`${img.id}-${i}`} className="gallery-teaser-reel__frame">
+                <GalleryImg src={img.src} alt="" className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="gallery-teaser-grid">
@@ -80,8 +109,8 @@ export default function GalleryTeaser() {
             href="/gallery"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-gold/40 text-gold-light font-[family-name:var(--font-cormorant)] tracking-[0.2em] uppercase text-xs hover:bg-gold/10 transition-all"
           >
-            <Images className="w-4 h-4" />
-            View Full Gallery
+            <Sparkles className="w-4 h-4" />
+            Explore Full Gallery
           </Link>
         </div>
       </div>
@@ -89,9 +118,38 @@ export default function GalleryTeaser() {
   );
 }
 
+function MemoryReel() {
+  const doubled = [...GALLERY_IMAGES, ...GALLERY_IMAGES];
+
+  return (
+    <div className="gallery-reel mb-10 md:mb-14" aria-hidden>
+      <div className="gallery-reel__fade gallery-reel__fade--left" />
+      <div className="gallery-reel__fade gallery-reel__fade--right" />
+      <div className="gallery-reel__track">
+        {doubled.map((img, i) => (
+          <div key={`reel-${img.id}-${i}`} className="gallery-reel__slide">
+            <GalleryImg src={img.src} alt="" className="w-full h-full object-cover" />
+            <span className="gallery-reel__caption">{img.caption}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function MemoryGallery() {
+  const [filter, setFilter] = useState<ChapterFilter>("all");
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
+  const touchStart = useRef<number | null>(null);
+
+  const filtered = useMemo(
+    () =>
+      filter === "all"
+        ? GALLERY_IMAGES
+        : GALLERY_IMAGES.filter((g) => g.chapter === filter),
+    [filter]
+  );
 
   const open = (id: number) => setLightbox(id);
   const close = () => setLightbox(null);
@@ -99,11 +157,22 @@ export function MemoryGallery() {
   const step = useCallback((dir: 1 | -1) => {
     setLightbox((current) => {
       if (current === null) return null;
-      const idx = GALLERY_IMAGES.findIndex((g) => g.id === current);
-      const next = (idx + dir + GALLERY_IMAGES.length) % GALLERY_IMAGES.length;
-      return GALLERY_IMAGES[next].id;
+      const pool =
+        filter === "all"
+          ? GALLERY_IMAGES
+          : GALLERY_IMAGES.filter((g) => g.chapter === filter);
+      const idx = pool.findIndex((g) => g.id === current);
+      if (idx === -1) return pool[0]?.id ?? null;
+      const next = (idx + dir + pool.length) % pool.length;
+      return pool[next].id;
     });
-  }, []);
+  }, [filter]);
+
+  const openRandom = () => {
+    const pool = filtered.length ? filtered : GALLERY_IMAGES;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    open(pick.id);
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -143,11 +212,22 @@ export function MemoryGallery() {
           aria-label="Photo viewer"
         >
           <motion.div
+            key={active.id}
             initial={{ scale: 0.92, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 320, damping: 28 }}
             className="gallery-lightbox__panel"
             onClick={(e) => e.stopPropagation()}
+            onTouchStart={(e) => {
+              touchStart.current = e.touches[0].clientX;
+            }}
+            onTouchEnd={(e) => {
+              if (touchStart.current === null) return;
+              const delta = e.changedTouches[0].clientX - touchStart.current;
+              if (Math.abs(delta) > 48) step(delta > 0 ? -1 : 1);
+              touchStart.current = null;
+            }}
           >
             <button
               type="button"
@@ -173,6 +253,11 @@ export function MemoryGallery() {
             >
               <ChevronRight className="w-6 h-6" />
             </button>
+
+            <span className="gallery-lightbox__chapter">
+              {chapterLabel(active.chapter)}
+            </span>
+
             <div className="gallery-lightbox__image-wrap">
               <GalleryImg
                 src={active.src}
@@ -181,11 +266,11 @@ export function MemoryGallery() {
                 priority
               />
             </div>
-            <p className="text-center mt-4 text-cream font-[family-name:var(--font-playfair)] text-lg">
+            <p className="text-center mt-4 text-cream font-[family-name:var(--font-playfair)] text-lg md:text-xl">
               {active.caption}
             </p>
-            <p className="text-center text-cream/40 text-xs mt-1 font-[family-name:var(--font-cormorant)]">
-              {active.id} / {GALLERY_IMAGES.length}
+            <p className="text-center text-cream/40 text-xs mt-1 font-[family-name:var(--font-cormorant)] tracking-wider">
+              {active.id} of {GALLERY_IMAGES.length} · swipe or use arrows
             </p>
           </motion.div>
         </motion.div>
@@ -193,32 +278,51 @@ export function MemoryGallery() {
     </AnimatePresence>
   );
 
+  const featured = GALLERY_IMAGES[0];
+
   return (
     <>
-      <section className="relative px-4 sm:px-6 pb-16 md:pb-20">
+      <section className="relative px-4 sm:px-6 pb-16 md:pb-24">
+        <MemoryReel />
+
+        <div className="max-w-6xl mx-auto mb-8 flex flex-wrap items-center justify-center gap-3 text-center">
+          <div className="gallery-stat">
+            <span className="gallery-stat__num">{GALLERY_IMAGES.length}</span>
+            <span className="gallery-stat__label">Memories</span>
+          </div>
+          <div className="gallery-stat">
+            <span className="gallery-stat__num">60</span>
+            <span className="gallery-stat__label">Years of {HONOREE_FIRST_NAME}</span>
+          </div>
+          <div className="gallery-stat">
+            <span className="gallery-stat__num">∞</span>
+            <span className="gallery-stat__label">Love & Legacy</span>
+          </div>
+        </div>
+
         <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7 }}
-          className="max-w-6xl mx-auto mb-8 md:mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-6xl mx-auto mb-10"
         >
           <button
             type="button"
-            onClick={() => open(GALLERY_IMAGES[0].id)}
+            onClick={() => open(featured.id)}
             className="gallery-hero group w-full text-left"
           >
             <GalleryImg
-              src={GALLERY_IMAGES[0].src}
-              alt={GALLERY_IMAGES[0].alt}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              src={featured.src}
+              alt={featured.alt}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
               priority
             />
             <div className="gallery-hero__overlay">
               <p className="text-gold/80 text-xs tracking-[0.35em] uppercase font-[family-name:var(--font-cormorant)]">
-                Featured Memory
+                Spotlight Memory
               </p>
-              <p className="text-cream text-xl md:text-2xl font-[family-name:var(--font-playfair)] mt-1">
-                {GALLERY_IMAGES[0].caption}
+              <p className="text-cream text-xl md:text-3xl font-[family-name:var(--font-playfair)] mt-1">
+                {featured.caption}
               </p>
               <span className="gallery-hero__zoom">
                 <ZoomIn className="w-5 h-5" />
@@ -227,35 +331,77 @@ export function MemoryGallery() {
           </button>
         </motion.div>
 
-        <div className="max-w-6xl mx-auto gallery-mosaic">
-          {GALLERY_IMAGES.slice(1).map((img, i) => (
-            <motion.button
-              key={img.id}
-              type="button"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: (i % 4) * 0.06 }}
-              whileHover={{ y: -4 }}
-              onClick={() => open(img.id)}
-              className={`gallery-mosaic__cell gallery-mosaic__cell--${(i % 6) + 1}`}
-            >
-              <GalleryImg
-                src={img.src}
-                alt={img.alt}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="gallery-mosaic__frame" aria-hidden />
-              <div className="gallery-mosaic__caption">
-                <p className="text-[10px] tracking-[0.2em] uppercase text-gold-light/90 font-[family-name:var(--font-cormorant)]">
-                  {img.caption}
-                </p>
-              </div>
-            </motion.button>
-          ))}
+        <div className="max-w-6xl mx-auto mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div
+            className="gallery-chapters flex flex-wrap justify-center sm:justify-start gap-2"
+            role="tablist"
+            aria-label="Filter memories by chapter"
+          >
+            {GALLERY_CHAPTERS.map((ch) => (
+              <button
+                key={ch.id}
+                type="button"
+                role="tab"
+                aria-selected={filter === ch.id}
+                onClick={() => setFilter(ch.id)}
+                className={`gallery-chapter-pill ${
+                  filter === ch.id ? "gallery-chapter-pill--active" : ""
+                }`}
+              >
+                <span aria-hidden>{ch.icon}</span>
+                {ch.label}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={openRandom}
+            className="gallery-surprise-btn shrink-0"
+          >
+            <Shuffle className="w-3.5 h-3.5" />
+            Surprise Me
+          </button>
         </div>
 
-        <p className="text-center text-cream/35 text-xs mt-12 font-[family-name:var(--font-cormorant)] tracking-wider">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={filter}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.35 }}
+            className="max-w-6xl mx-auto gallery-polaroid-wall"
+          >
+            {filtered.map((img, i) => (
+              <motion.button
+                key={img.id}
+                type="button"
+                layout
+                initial={{ opacity: 0, scale: 0.94 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: Math.min(i * 0.03, 0.36) }}
+                onClick={() => open(img.id)}
+                className={`gallery-polaroid gallery-polaroid--${(i % 6) + 1}`}
+                style={{ "--tilt": `${img.tilt}deg` } as React.CSSProperties}
+              >
+                <div className="gallery-polaroid__tape" aria-hidden />
+                <div className="gallery-polaroid__photo">
+                  <GalleryImg
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <p className="gallery-polaroid__caption">{img.caption}</p>
+                <span className="gallery-polaroid__chapter">
+                  {chapterLabel(img.chapter)}
+                </span>
+              </motion.button>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+
+        <p className="text-center text-cream/35 text-xs mt-14 font-[family-name:var(--font-cormorant)] tracking-wider">
           {EVENT_HASHTAG}
         </p>
       </section>
