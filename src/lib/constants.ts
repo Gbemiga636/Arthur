@@ -10,3 +10,8 @@ export const EVENT_VENUE_ADDRESS = "35100 Van Born Rd, Wayne, MI 48184";
 
 /** Skip music intro — start playback at this second */
 export const MUSIC_START_SECONDS = 12;
+
+/** MyRegistry wishlist for friends celebrating from afar */
+export const GIFT_REGISTRY_URL =
+  "https://www.myregistry.com/wishlist/akukalia-ikenna-ibegbu-/5499497";
+export const GIFT_REGISTRY_TITLE = "Akukalia Ikenna Ibegbu Celebration Wishlist";

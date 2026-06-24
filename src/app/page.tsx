@@ -9,6 +9,7 @@ import EnvelopeSection from "@/components/EnvelopeSection";
 import GalleryTeaser from "@/components/MemoryGallery";
 import CountdownTimer from "@/components/CountdownTimer";
 import RSVPForm from "@/components/RSVPForm";
+import GiftRegistrySection from "@/components/GiftRegistrySection";
 import HotelReservation from "@/components/HotelReservation";
 import FAQSection from "@/components/FAQSection";
 import PhotoboothPromo from "@/components/PhotoboothPromo";
@@ -31,6 +32,7 @@ export default function HomePage() {
         <QuickInfoStrip />
         <GalleryTeaser />
         <RSVPForm />
+        <GiftRegistrySection />
         <CountdownTimer />
         <HotelReservation />
         <PhotoboothPromo />

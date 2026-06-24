@@ -43,6 +43,10 @@ const faqs = [
     a: `When posting photos, memories, or well-wishes on social media, please use ${EVENT_HASHTAG}. We would love to see the celebration through your eyes!`,
   },
   {
+    q: "I can't attend in person — how can I still support the celebration?",
+    a: "We would love your prayers and well-wishes. If you wish to send a gift, visit our Support page or the official MyRegistry celebration wishlist linked there. Your presence in spirit means the world to us.",
+  },
+  {
     q: "Who do I contact with questions?",
     a: `For any questions regarding the celebration, RSVP, or accommodations, please contact the ${HONOREE_FAMILY_NAME} Family directly. We are happy to assist and look forward to celebrating with you.`,
   },

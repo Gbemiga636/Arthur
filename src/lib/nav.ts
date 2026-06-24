@@ -3,6 +3,7 @@ export const NAV_LINKS = [
   { href: "/gallery", label: "Gallery" },
   { href: "/hotel", label: "Hotel" },
   { href: "/rsvp", label: "RSVP", highlight: true as const },
+  { href: "/support", label: "Support" },
   { href: "/faq", label: "FAQ" },
   { href: "/photobooth", label: "Photobooth" },
 ];
