@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: "What is the dress code?",
-    a: "The celebration calls for elegant and refined attire. Think cocktail or formal evening wear — navy, gold, and cream tones are warmly encouraged to match the spirit of this golden milestone.",
+    a: "The celebration calls for elegant and refined attire. Think traditional or formal evening wear — brown, navy, and gold/cream tones are warmly encouraged to match the spirit of this golden milestone.",
   },
   {
     q: "Where is the celebration being held?",

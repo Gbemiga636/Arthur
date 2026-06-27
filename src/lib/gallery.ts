@@ -46,6 +46,9 @@ const FILES = [
   "25.jpeg",
   "26.jpeg",
   "27.jpeg",
+  "28.jpeg",
+  "29.jpeg",
+  "30.jpeg",
 ] as const;
 
 const CAPTIONS = [
@@ -76,13 +79,29 @@ const CAPTIONS = [
   "Precious gatherings",
   "Light that endures",
   "Sixty years of love",
+  "With my siblings",
+  "Brothers & sisters united",
+  "Ozo — Chief Akukalia",
 ];
+
+/** Optional chapter overrides for specific photos */
+const CHAPTER_OVERRIDES: Partial<Record<(typeof FILES)[number], GalleryChapter>> = {
+  "28.jpeg": "family",
+  "29.jpeg": "family",
+  "30.jpeg": "legacy",
+};
+
+const ALT_OVERRIDES: Partial<Record<(typeof FILES)[number], string>> = {
+  "28.jpeg": `${HONOREE_FIRST_NAME} with his siblings`,
+  "29.jpeg": `${HONOREE_FIRST_NAME} celebrating with his siblings`,
+  "30.jpeg": `${HONOREE_FIRST_NAME} as Ozo — Chief Akukalia Ibegbu`,
+};
 
 /** Slight tilt for polaroid wall — cycles for visual rhythm */
 export const POLAROID_TILTS = [
   -2.2, 1.8, -1.4, 2.5, -1.9, 1.2, -2.8, 0.8, -1.1, 2.1,
   -1.6, 2.4, -0.9, 1.5, -2.3, 1.0, -1.7, 2.0, -1.3, 1.9,
-  -2.0, 1.4, -1.8, 2.2, -1.0, 1.6, -2.5,
+  -2.0, 1.4, -1.8, 2.2, -1.0, 1.6, -2.5, 1.3, -1.5, 2.3,
 ];
 
 export type GalleryImage = {
@@ -102,13 +121,13 @@ export const GALLERY_IMAGES: GalleryImage[] = FILES.map((file, i) => ({
   id: i + 1,
   src: galleryPublicSrc(file),
   caption: CAPTIONS[i] ?? "A beautiful memory",
-  alt: `${HONOREE_FIRST_NAME}'s 60th celebration — photo ${i + 1}`,
-  chapter: CHAPTER_CYCLE[i % CHAPTER_CYCLE.length],
+  alt: ALT_OVERRIDES[file] ?? `${HONOREE_FIRST_NAME}'s 60th celebration — photo ${i + 1}`,
+  chapter: CHAPTER_OVERRIDES[file] ?? CHAPTER_CYCLE[i % CHAPTER_CYCLE.length],
   tilt: POLAROID_TILTS[i % POLAROID_TILTS.length],
 }));
 
 /** Featured images for homepage teaser — spread across the album */
-export const GALLERY_TEASER_IDS = [1, 8, 15, 22] as const;
+export const GALLERY_TEASER_IDS = [1, 10, 20, 30] as const;
 
 export function chapterLabel(chapter: GalleryChapter): string {
   return GALLERY_CHAPTERS.find((c) => c.id === chapter)?.label ?? chapter;
