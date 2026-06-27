@@ -44,7 +44,7 @@ const faqs = [
   },
   {
     q: "I can't attend in person — how can I still support the celebration?",
-    a: "We would love your prayers and well-wishes. If you wish to send a gift, visit our Support page or the official MyRegistry celebration wishlist linked there. Your presence in spirit means the world to us.",
+    a: "We would love your prayers and well-wishes. If you wish to send a gift, visit our Gift Registry page or the official MyRegistry celebration wishlist linked there. Your presence in spirit means the world to us.",
   },
   {
     q: "Who do I contact with questions?",

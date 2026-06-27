@@ -57,7 +57,7 @@ export default function GiftRegistrySection({
 
   return (
     <section
-      id="support"
+      id="gift-registry"
       className={`relative px-4 sm:px-6 overflow-hidden ${
         compact ? "py-10 md:py-12" : "py-16 md:py-24"
       }`}
@@ -139,9 +139,8 @@ export default function GiftRegistrySection({
                   <span className="text-gold-shimmer">Golden Chapter</span>
                 </h3>
                 <p className="mt-3 text-cream/55 font-[family-name:var(--font-cormorant)] text-base md:text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
-                  Friends who cannot attend have asked how they may support this
-                  celebration. Browse the curated wishlist and send a blessing
-                  in whatever way feels right for you.
+                  Browse the curated wishlist and send a blessing in whatever way
+                  feels right for you.
                 </p>
               </div>
 
