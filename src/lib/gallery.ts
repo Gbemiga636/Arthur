@@ -80,7 +80,7 @@ const CAPTIONS = [
   "Light that endures",
   "Sixty years of love",
   "With my siblings",
-  "Brothers & sisters united",
+  "Akunne and Akukalia Ibegbu",
   "Ozo — Chief Akukalia",
 ];
 
@@ -93,7 +93,7 @@ const CHAPTER_OVERRIDES: Partial<Record<(typeof FILES)[number], GalleryChapter>>
 
 const ALT_OVERRIDES: Partial<Record<(typeof FILES)[number], string>> = {
   "28.jpeg": `${HONOREE_FIRST_NAME} with his siblings`,
-  "29.jpeg": `${HONOREE_FIRST_NAME} celebrating with his siblings`,
+  "29.jpeg": "Akunne and Akukalia Ibegbu",
   "30.jpeg": `${HONOREE_FIRST_NAME} as Ozo — Chief Akukalia Ibegbu`,
 };
 
